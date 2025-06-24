@@ -6,10 +6,47 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 
-export default function Login() {
+type User = {
+  id: number;
+  firstname: string;
+  lastname: string;
+  fullname: string;
+  email: string;
+  dob: string;
+};
+
+type LoginProps = {
+  onLogin: (user: User) => void;
+};
+
+export default function Login({ onLogin }: LoginProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+
+  const handleLogin = async () => {
+    setErrorMsg('');
+    console.log("finding data in backend:", email);
+
+    try {
+      const url = `http://localhost:8080/api/auth/get?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      const response = await axios.get<User>(url);
+      const userData = response.data;
+      onLogin(userData);
+
+    } catch (error: any) {
+      console.error('Login error:', error);
+      if (error.response && error.response.status === 400) {
+        setErrorMsg(error.response.data); // this will be "Email already taken"
+      } else {
+        setErrorMsg('Login failed. Please try again.');
+      }
+    }
+  };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 via-blue-50 to-teal-50">
@@ -110,7 +147,7 @@ export default function Login() {
               </a>
             </div>
 
-            <Button className="w-full h-12 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] cursor-pointer">
+            <Button className="w-full h-12 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] cursor-pointer"onClick={(e) => {e.preventDefault();  handleLogin();}}>
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
@@ -121,6 +158,11 @@ export default function Login() {
               </svg>
               Sign In
             </Button>
+            {errorMsg && (
+                <div className="text-red-600 font-medium text-sm mb-4">
+                  {errorMsg}
+                </div>
+              )}
           </form>
 
           <div className="mt-8 pt-6 border-t border-gray-200">

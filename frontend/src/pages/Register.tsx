@@ -6,13 +6,55 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import axios from 'axios';
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
+  const handleRegistration = async () => {
+    setErrorMsg('');
+    try {
+      const userData = {
+        name,
+        email,
+        password
+      };
+
+      console.log("Sending data to backend:", userData);
+
+
+      const response = await axios.post('http://localhost:8080/api/auth/add', userData);
+      console.log('User registered:', response.data);
+
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      if (error.response && error.response.status === 400) {
+        setErrorMsg(error.response.data); // this will be "Email already taken"
+      } else {
+        setErrorMsg('Registration failed. Please try again.');
+      }
+    }
+    setRegistrationSuccess(true);
+  };
+
+  if (registrationSuccess){
+    return (
+      <div className='centered-container'>
+        <div className="login-container">
+        <h1>Registration success!</h1>
+        <h2> </h2>
+        <div className="registration-link">
+          <p>Login into your account <a href="/login">Login here</a></p>
+        </div>
+        </div>
+  
+      </div>);
+  }
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 via-teal-50 to-emerald-50">
       {/* Decorative health-related background */}
@@ -164,7 +206,7 @@ export default function Register() {
                 </label>
               </div>
 
-              <Button className="w-full h-12 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] cursor-pointer">
+              <Button className="w-full h-12 bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg transition-all duration-200 transform hover:scale-[1.02] cursor-pointer" onClick={(e) => {e.preventDefault();  handleRegistration();}}>
                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -175,6 +217,11 @@ export default function Register() {
                 </svg>
                 Create Account
               </Button>
+              {errorMsg && (
+                <div className="text-red-600 font-medium text-sm mb-4">
+                  {errorMsg}
+                </div>
+              )}
             </form>
 
             <div className="mt-8 pt-6 border-t border-gray-200">
@@ -208,3 +255,4 @@ export default function Register() {
     </div>
   );
 }
+

@@ -1,0 +1,26 @@
+# spring.application.name=demo
+
+
+server:
+    error:
+      include-message: always
+      include-binding-errors: always
+
+
+# connection to postgresql
+spring:
+  datasource:
+    password: 123456
+    url: jdbc:postgresql://localhost:5432/registration
+    username: postgres
+    webmvc:
+      cors:
+        allowed-origins: "http://localhost:5173"
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect 
+        format_sql: true
+    show-sql: true
