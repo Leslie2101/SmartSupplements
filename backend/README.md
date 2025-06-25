@@ -51,7 +51,7 @@ ALTER USER postgres WITH PASSWORD '123456';
 ```
 
 ## 🧪 Running and Testing the Backend via IDE
-1. Open the project in IntelliJ IDEA.
+1. Open the project in an IDE like VSCode.
 
 2. Ensure your IDE recognizes the project as a Maven project.
 
