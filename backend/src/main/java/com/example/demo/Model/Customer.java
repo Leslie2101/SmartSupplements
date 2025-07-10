@@ -1,5 +1,11 @@
 package com.example.demo.Model;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.*;
 import lombok.*;
 // import java.time.LocalDate;
@@ -22,7 +28,7 @@ import lombok.*;
 )
 
 
-public class Customer {
+public class Customer implements UserDetails{
     @Id
     @SequenceGenerator(
         name = "customer_sequence",
@@ -60,6 +66,16 @@ public class Customer {
         columnDefinition = "TEXT"
     )
     private String password;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
 
 }
