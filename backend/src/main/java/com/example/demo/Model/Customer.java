@@ -7,43 +7,26 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
-import lombok.*;
 // import java.time.LocalDate;
 // import java.time.Period;
+import lombok.Setter;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+// @AllArgsConstructor
+// @NoArgsConstructor
+// @Getter
 @Setter
-@ToString
-@EqualsAndHashCode
+// @ToString
+// @EqualsAndHashCode
 @Entity
-@Table(
-        name = "Customer",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "customer_email_unique", columnNames = "email"
-                )
-        }
-)
+@Table(name = "Customer")
 
 
 public class Customer implements UserDetails{
     @Id
-    @SequenceGenerator(
-        name = "customer_sequence",
-        sequenceName = "customer_sequence",
-        allocationSize = 1
-    )
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "customer_sequence"
-    )
-    @Column(
-        name = "id",
-        updatable = false
-    )
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false)
+    private Integer id;
+    // private Long id;
 
     @Column(
         name = "name",
@@ -75,6 +58,31 @@ public class Customer implements UserDetails{
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 

@@ -8,6 +8,7 @@ import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -42,6 +43,7 @@ public class JwtService {
     }
 
     public long getExpirationTime() {
+        System.out.println("Expiration time" + jwtExpiration);
         return jwtExpiration;
     }
 

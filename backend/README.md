@@ -55,7 +55,7 @@ ALTER USER postgres WITH PASSWORD '123456';
 
 2. Ensure your IDE recognizes the project as a Maven project.
 
-3. In the `src/main/java folder`, navigate to `DemoApplication.java`.
+3. In the `src/main/java/com/example/demo folder`, navigate to `DemoApplication.java`.
 
 4. Click the green ▶️ Run button next to the class name, or near the main function.
 
