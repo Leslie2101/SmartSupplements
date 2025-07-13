@@ -14,7 +14,7 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  // const [, setRegistrationSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const handleRegistration = async () => {
@@ -32,7 +32,7 @@ export default function Register() {
       const response = await axios.post('http://localhost:8080/auth/add', userData);
       console.log('User registered:', response.data);
       if (response.status == 200){
-        setRegistrationSuccess(true);
+        // setRegistrationSuccess(true);
         navigate("/login");
       }
 
