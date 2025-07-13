@@ -59,7 +59,7 @@ ALTER USER postgres WITH PASSWORD '123456';
 
 4. Click the green ▶️ Run button next to the class name, or near the main function.
 
-5. Wait for the console to display all, test the back end via visiting [localhost:8080/api/auth/all](http://localhost:8080/api/auth/all)
+5. Wait for the console to display all, test the back end via visiting [localhost:8080/users/](http://localhost:8080/users/)
 
 
 ## 📦 Build Instructions
@@ -78,6 +78,15 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-The backend is now hosted at [localhost:8080](http://localhost:8080). The user database can be checked at [localhost:8080/api/auth/all](http://localhost:8080/api/auth/all)
+and in a new terminal for front end:
+```bash
+# Navigate to the backend directory
+cd frontend
+
+# Build the Spring Boot project using Maven
+npm run dev
+```
+
+The backend is now hosted at [localhost:8080](http://localhost:8080). The user database can be checked at [localhost:8080/users/](http://localhost:8080/users/)
 
 The backend takes request from the frontend at [localhost:5173](http://localhost:5173)
