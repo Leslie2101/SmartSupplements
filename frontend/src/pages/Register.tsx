@@ -5,10 +5,11 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axios from 'axios';
 
 export default function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,33 +29,25 @@ export default function Register() {
       console.log("Sending data to backend:", userData);
 
 
-      const response = await axios.post('http://localhost:8080/api/auth/add', userData);
+      const response = await axios.post('http://localhost:8080/auth/add', userData);
       console.log('User registered:', response.data);
+      if (response.status == 200){
+        setRegistrationSuccess(true);
+        navigate("/login");
+      }
 
     } catch (error: any) {
-      console.error('Registration error:', error);
-      if (error.response && error.response.status === 400) {
-        setErrorMsg(error.response.data); // this will be "Email already taken"
+      if (error.response) {
+        const detail = error.response.data?.detail || "Registration failed"
+        setErrorMsg(detail); // this will be "Email already taken"
       } else {
         setErrorMsg('Registration failed. Please try again.');
       }
     }
-    setRegistrationSuccess(true);
+    
   };
 
-  if (registrationSuccess){
-    return (
-      <div className='centered-container'>
-        <div className="login-container">
-        <h1>Registration success!</h1>
-        <h2> </h2>
-        <div className="registration-link">
-          <p>Login into your account <a href="/login">Login here</a></p>
-        </div>
-        </div>
   
-      </div>);
-  }
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 via-teal-50 to-emerald-50">
       {/* Decorative health-related background */}

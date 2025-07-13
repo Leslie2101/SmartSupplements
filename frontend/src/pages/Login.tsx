@@ -29,18 +29,19 @@ export default function Login({ onLogin }: LoginProps) {
 
   const handleLogin = async () => {
     setErrorMsg('');
-    console.log("finding data in backend:", email);
+    // console.log("finding data in backend:", email);
 
     try {
-      const url = `http://localhost:8080/api/auth/get?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
+      const url = `http://localhost:8080/auth/get?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`;
       const response = await axios.get<User>(url);
       const userData = response.data;
       onLogin(userData);
 
     } catch (error: any) {
-      console.error('Login error:', error);
-      if (error.response && error.response.status === 400) {
-        setErrorMsg(error.response.data); // this will be "Email already taken"
+      // console.error('Login error:', error);
+      if (error.response) {
+        const detail = error.response.data?.detail || "Login failed"
+        setErrorMsg(detail); // this will be "Email already taken"
       } else {
         setErrorMsg('Login failed. Please try again.');
       }
