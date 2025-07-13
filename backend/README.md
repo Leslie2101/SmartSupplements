@@ -80,10 +80,10 @@ cd backend
 
 and in a new terminal for front end:
 ```bash
-# Navigate to the backend directory
+# Navigate to the frontend directory
 cd frontend
 
-# Build the Spring Boot project using Maven
+# Build frontend
 npm run dev
 ```
 
