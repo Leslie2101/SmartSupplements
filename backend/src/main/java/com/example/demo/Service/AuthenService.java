@@ -1,15 +1,15 @@
 package com.example.demo.Service;
 
-import java.util.List;
+// import java.util.List;
 
 import com.example.demo.Dto.RegisterUserDto;
 import com.example.demo.Model.Customer;
 import com.example.demo.Repository.UserRepository;
 
-import java.util.Optional;
+// import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
