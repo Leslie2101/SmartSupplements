@@ -5,6 +5,7 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 import { useState } from 'react';
 import ScanData from './pages/ScanData';
+import About from "./pages/About"; // add your new page function here
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/scan-data" element={<ScanData />} />
+          <Route path="/about" element={<About />} />
         </Route>
 
         {/* Default route */}
