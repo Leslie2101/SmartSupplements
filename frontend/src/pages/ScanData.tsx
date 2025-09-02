@@ -1,11 +1,15 @@
 import { Card, CardContent } from "@/components/ui/card";
 import React, { useRef, useState } from "react";
+import { createWorker } from "tesseract.js";
+
 
 
 function PhotoUpload() {
   const [preview, setPreview] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [extractedText, setExtractedText] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -19,16 +23,22 @@ function PhotoUpload() {
     fileInputRef.current?.click(); // trigger hidden input
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!selectedFile) {
       alert("Please select a file first.");
       return;
     }
 
-    // Placeholder: handle OCR processing here
-    console.log("Submitting file for OCR:", selectedFile);
-    alert("File submitted! OCR processing will be implemented later.");
+    const worker = await createWorker("eng");
+
+    const { data: { text } } = await worker.recognize(selectedFile);
+    await worker.terminate();
+
+    setExtractedText(text);
+    await worker.terminate();
   };
+
+
 
   return (
     <div className="p-4 space-y-4">
@@ -68,6 +78,14 @@ function PhotoUpload() {
         >
           Submit for OCR
         </button>
+      )}
+
+      {/* Display extracted text */}
+      {extractedText && (
+        <div className="mt-4 p-3 border rounded bg-gray-50">
+          <h2 className="font-semibold">Extracted Text:</h2>
+          <pre className="whitespace-pre-wrap">{extractedText}</pre>
+        </div>
       )}
     </div>
   );
