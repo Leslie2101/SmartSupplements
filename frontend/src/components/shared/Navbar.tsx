@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Dumbbell } from 'lucide-react';
 
 const navItems = [
+  { label: 'About', href: '/about' },
   { label: 'Profile', href: '/profile' },
   { label: 'Scan data', href: '/scan-data' },
 ];
